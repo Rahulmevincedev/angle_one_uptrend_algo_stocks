@@ -18,14 +18,3 @@ smartApi = SmartConnect(api_key)
 
 # Generate session
 data = smartApi.generateSession(client_id, password, totp)
-
-# Check if session is successful
-if data['status']:
-    # Fetch the order book
-    order_book = smartApi.orderBook()
-    # Save orders to orders.json 
-    with open('Test/orders.json', 'w') as json_file:
-        json.dump(order_book, json_file, indent=4)
-        logger.info("Orders saved to positions.json")
-else:
-    print("Session generation failed:", data['message'])
