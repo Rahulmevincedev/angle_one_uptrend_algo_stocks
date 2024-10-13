@@ -1,4 +1,4 @@
-# This algo cancels all the pending orders
+# This algo places an order for HDFCBANK OCT 1600 CE
 import yaml
 from SmartApi.smartConnect import SmartConnect
 from logzero import logger
@@ -28,20 +28,21 @@ if data['status']:
     
     if order_book['status']:
         pending_orders = order_book['data']
+        print(order_book['data'])
         
-        # Check if there are pending orders
-        if pending_orders:
-            for order in pending_orders:
-                order_id = order['orderid']
-                variety = order['variety']
-                # Cancel each pending order
-                cancel_response = smart_api.cancelOrder(order_id, variety)
-                if cancel_response['status']:
-                    logger.info(f"Order {order_id} cancelled successfully.")
-                else:
-                    logger.error(f"Failed to cancel order {order_id}: {cancel_response['message']}")
-        else:
-            logger.info("No pending orders to cancel.")
+        # Filter only pending orders
+        pending_orders = [order for order in pending_orders if 'req received' in order['status']]
+        
+        print(pending_orders)  # Updated to print only pending orders
+        for order in pending_orders:
+            order_id = order['orderid']
+            variety = order['variety']
+            # Cancel each pending order
+            cancel_response = smart_api.cancelOrder(order_id, variety)
+            if cancel_response['status']:
+                logger.info(f"Order {order_id} cancelled successfully.")
+            else:
+                logger.error(f"Failed to cancel order {order_id}: {cancel_response['message']}")
     else:
         logger.error("Failed to fetch order book.")
 else:
