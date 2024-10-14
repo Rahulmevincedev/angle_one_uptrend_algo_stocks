@@ -31,14 +31,14 @@ if data['status']:
         print(order_book['data'])
         
         # Filter only pending orders
-        pending_orders = [order for order in pending_orders if 'req received' in order['status']]
+        pending_orders = [order for order in pending_orders if 'complete' in order['status']]
         
         print(pending_orders)  # Updated to print only pending orders
         for order in pending_orders:
             order_id = order['orderid']
             variety = order['variety']
             # Cancel each pending order
-            cancel_response = smart_api.cancelOrder(order_id, variety)
+            cancel_response = smart_api.(order_id, variety)
             if cancel_response['status']:
                 logger.info(f"Order {order_id} cancelled successfully.")
             else:
