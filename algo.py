@@ -38,7 +38,7 @@ if data['status']:
             order_id = order['orderid']
             variety = order['variety']
             # Cancel each pending order
-            cancel_response = smart_api.(order_id, variety)
+            cancel_response = smart_api.cancelOrder(order_id, variety)
             if cancel_response['status']:
                 logger.info(f"Order {order_id} cancelled successfully.")
             else:
