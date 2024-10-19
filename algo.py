@@ -60,8 +60,13 @@ def check_for_alerts():
         subprocess.run(['python', 'placeOrder.py'])
         # Remove corresponding buy order from active list
         active_buy_orders = [order for order in active_buy_orders if order['created_at'] != latest_log['created_at']]
-    elif log_tag == "Completed":
-        logger.info("Completed alert detected. Exiting program.")
+    elif log_tag == "Completed" or log_tag == "Force stopped":
+        logger.info(f"{log_tag} alert detected. Exiting program.")
+        if active_buy_orders:
+            logger.info("Active buy positions detected. Placing sell orders before exiting.")
+            for order in active_buy_orders:
+                subprocess.run(['python', 'placeOrder.py'])  # Modify placeOrder.py to handle sell orders
+            active_buy_orders.clear()  # Clear the list after selling
         exit(0)  # Exit the program
 
     # Check if the current time is 15:15
