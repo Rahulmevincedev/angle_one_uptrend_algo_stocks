@@ -17,7 +17,7 @@ headers = {
   'sec-fetch-site': 'same-site',
   'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36'
 }
-conn.request("GET", "/fetch_order_log/?deployment_uuid=cf19a1ec-81c9-4e40-b157-eb16b1e9efa4", payload, headers)
+conn.request("GET", "/fetch_order_log/?deployment_uuid=4f971d6d-2906-4379-9848-d66a3afc5069", payload, headers)
 res = conn.getresponse()
 data = res.read()
 print(data.decode("utf-8"))

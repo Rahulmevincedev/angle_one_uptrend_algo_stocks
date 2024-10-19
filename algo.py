@@ -57,7 +57,7 @@ def check_for_alerts():
         active_buy_orders.append(latest_log)  # Track the buy order
     elif log_tag == "SELL alert":
         logger.info("SELL alert detected. Placing sell order.")
-        subprocess.run(['python', 'placeOrder.py'])
+        subprocess.run(['python', 'placeSellOrder.py'])
         # Remove corresponding buy order from active list
         active_buy_orders = [order for order in active_buy_orders if order['created_at'] != latest_log['created_at']]
     elif log_tag == "Completed" or log_tag == "Force stopped":
@@ -65,7 +65,7 @@ def check_for_alerts():
         if active_buy_orders:
             logger.info("Active buy positions detected. Placing sell orders before exiting.")
             for order in active_buy_orders:
-                subprocess.run(['python', 'placeOrder.py'])  # Modify placeOrder.py to handle sell orders
+                subprocess.run(['python', 'placeSellOrder.py'])  # Modify placeSellOrder.py to handle sell orders
             active_buy_orders.clear()  # Clear the list after selling
         exit(0)  # Exit the program
 
@@ -75,7 +75,7 @@ def check_for_alerts():
     if current_time == "15:15" and active_buy_orders:
         logger.info("Time is 15:15. Placing sell orders for all active buy positions.")
         for order in active_buy_orders:
-            subprocess.run(['python', 'placeOrder.py'])  # Modify placeOrder.py to handle sell orders
+            subprocess.run(['python', 'placeSellOrder.py'])  # Modify placeSellOrder.py to handle sell orders
         active_buy_orders.clear()  # Clear the list after selling
 
 # Run check_for_alerts every 5 to 10 seconds
