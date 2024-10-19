@@ -9,10 +9,12 @@ import random
 from datetime import datetime
 
 # Load credentials from the YAML file
-logger.info("Loading credentials from YAML file.")
-with open('credentials.yml', 'r') as file:
-    credentials = yaml.safe_load(file)
+def load_credentials():
+    logger.info("Loading credentials from YAML file.")
+    with open('credentials.yml', 'r') as file:
+        return yaml.safe_load(file)
 
+credentials = load_credentials()
 api_key = credentials['API_KEY']
 client_id = credentials['client_ID']
 password = credentials['Password']
@@ -39,7 +41,12 @@ def check_for_alerts():
         return
 
     logger.info("Parsing output from algoStatus.py.")
-    data = json.loads(result.stdout)
+    try:
+        data = json.loads(result.stdout)
+    except json.JSONDecodeError:
+        logger.error("Failed to decode JSON from algoStatus.py output.")
+        return
+
     order_logs = data.get('order_logs', [])
     if not order_logs:
         logger.info("No order logs found.")
@@ -53,19 +60,18 @@ def check_for_alerts():
     logger.info(f"Latest log tag: {log_tag}")
     if log_tag == "BUY alert":
         logger.info("BUY alert detected. Placing buy order.")
-        subprocess.run(['python', 'placeOrder.py'])
+        subprocess.run(['python', 'placeOrder.py', api_key, client_id, password, credentials['token']])
         active_buy_orders.append(latest_log)  # Track the buy order
     elif log_tag == "SELL alert":
         logger.info("SELL alert detected. Placing sell order.")
-        subprocess.run(['python', 'placeSellOrder.py'])
-        # Remove corresponding buy order from active list
+        subprocess.run(['python', 'placeSellOrder.py', api_key, client_id, password, credentials['token']])
         active_buy_orders = [order for order in active_buy_orders if order['created_at'] != latest_log['created_at']]
-    elif log_tag == "Completed" or log_tag == "Force stopped":
+    elif log_tag in ["Completed", "Force stopped"]:
         logger.info(f"{log_tag} alert detected. Exiting program.")
         if active_buy_orders:
             logger.info("Active buy positions detected. Placing sell orders before exiting.")
             for order in active_buy_orders:
-                subprocess.run(['python', 'placeSellOrder.py'])  # Modify placeSellOrder.py to handle sell orders
+                subprocess.run(['python', 'placeSellOrder.py', api_key, client_id, password, credentials['token']])
             active_buy_orders.clear()  # Clear the list after selling
         exit(0)  # Exit the program
 
@@ -75,13 +81,13 @@ def check_for_alerts():
     if current_time == "15:15" and active_buy_orders:
         logger.info("Time is 15:15. Placing sell orders for all active buy positions.")
         for order in active_buy_orders:
-            subprocess.run(['python', 'placeSellOrder.py'])  # Modify placeSellOrder.py to handle sell orders
+            subprocess.run(['python', 'placeSellOrder.py', api_key, client_id, password, credentials['token']])
         active_buy_orders.clear()  # Clear the list after selling
 
-# Run check_for_alerts every 5 to 10 seconds
+# Run check_for_alerts every 7 to 10 seconds
 logger.info("Starting alert check loop.")
 while True:
     check_for_alerts()
-    sleep_duration = random.randint(5, 10)
+    sleep_duration = random.randint(7, 10)
     logger.info(f"Sleeping for {sleep_duration} seconds.")
-    time.sleep(sleep_duration)  # Includes both 5 and 10
+    time.sleep(sleep_duration)  # Includes both 7 and 10
