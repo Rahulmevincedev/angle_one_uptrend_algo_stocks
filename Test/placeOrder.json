@@ -1,0 +1,13 @@
+{
+    "variety": "AMO",
+    "tradingsymbol": "HDFCBANK31OCT241650CE",
+    "symboltoken": "107435",
+    "transactiontype": "BUY",
+    "exchange": "NFO",
+    "ordertype": "LIMIT",
+    "producttype": "CARRYFORWARD",
+    "duration": "DAY",
+    "quantity": "550",
+    "instrumenttype": "OPTSTK",
+    "price": "55"
+}

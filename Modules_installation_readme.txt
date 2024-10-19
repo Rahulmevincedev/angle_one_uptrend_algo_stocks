@@ -5,18 +5,18 @@
 ### 1. Create a Virtual Environment
 To create a virtual environment, run the following command in your project directory:
 ```bash
-python -m venv myenv
+python -m venv .venv
 ```
 Replace `myenv` with your desired environment name.
 
 ### 2. Activate the Virtual Environment
 - **For PowerShell**:
   ```powershell
-  myenv\Scripts\Activate.ps1
+  .venv\Scripts\Activate.ps1
   ```
 - **For Command Prompt**:
   ```cmd
-  myenv\Scripts\activate
+  .venv\Scripts\activate
   ```
 
 ### 3. Install Required Packages
@@ -43,16 +43,16 @@ When moving your project to a different system:
 On the new system, follow these steps:
 - Create a new virtual environment:
   ```bash
-  python -m venv myenv
+  python -m venv .venv
   ```
 - Activate the virtual environment:
   - **For PowerShell**:
     ```powershell
-    myenv\Scripts\Activate.ps1
+    .venv\Scripts\Activate.ps1
     ```
   - **For Command Prompt**:
     ```cmd
-    myenv\Scripts\activate
+    .venv\Scripts\activate
     ```
 - Install the required packages:
 ```bash

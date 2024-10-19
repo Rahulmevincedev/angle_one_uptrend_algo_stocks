@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=E:\OneDrive - Evince Development Pvt. Ltd\Rahul\Pract\Streak\Angel One\angle_one_uptrend_algo_stocks\.venv
+set VIRTUAL_ENV=E:\Home\Trading\angle_one_uptrend_algo_stocks\.venv
 
 if not defined PROMPT set PROMPT=$P$G
 

@@ -29,7 +29,7 @@ else:
         "variety": "NORMAL",
         "tradingsymbol": "HDFCBANK31OCT241650CE",
         "symboltoken": "107435",
-        "transactiontype": "BUY",
+        "transactiontype": "SELL",
         "exchange": "NFO",
         "ordertype": "MARKET",
         "producttype": "CARRYFORWARD",
