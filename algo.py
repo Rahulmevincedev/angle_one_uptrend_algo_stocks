@@ -31,6 +31,9 @@ data = smart_api.generateSession(client_id, password, totp)
 # Track active buy orders
 active_buy_orders = []
 
+# Track processed log timestamps to avoid repeated actions
+processed_logs = set()
+
 # Function to run algoStatus.py and check for alerts
 def check_for_alerts():
     global active_buy_orders
@@ -59,21 +62,30 @@ def check_for_alerts():
 
     logger.info(f"Latest log tag: {log_tag}")
     if log_tag == "BUY alert":
-        logger.info("BUY alert detected. Placing buy order.")
-        subprocess.run(['python', 'placeOrder.py', api_key, client_id, password, credentials['token']])
-        active_buy_orders.append(latest_log)  # Track the buy order
+        created_at = latest_log.get('created_at')
+        if created_at not in processed_logs:  # Check if this log has already been processed
+            logger.info("BUY alert detected. Placing buy order.")
+            subprocess.run(['python', 'placeOrder.py', api_key, client_id, password, credentials['token']])
+            active_buy_orders.append(latest_log)  # Track the buy order
+            processed_logs.add(created_at)  # Mark this log as processed
     elif log_tag == "SELL alert":
-        logger.info("SELL alert detected. Placing sell order.")
-        subprocess.run(['python', 'placeSellOrder.py', api_key, client_id, password, credentials['token']])
-        active_buy_orders = [order for order in active_buy_orders if order['created_at'] != latest_log['created_at']]
+        created_at = latest_log.get('created_at')
+        if created_at not in processed_logs:  # Check if this log has already been processed
+            logger.info("SELL alert detected. Placing sell order.")
+            subprocess.run(['python', 'placeSellOrder.py', api_key, client_id, password, credentials['token']])
+            active_buy_orders = [order for order in active_buy_orders if order['created_at'] != latest_log['created_at']]
+            processed_logs.add(created_at)  # Mark this log as processed
     elif log_tag in ["Completed", "Force stopped"]:
-        logger.info(f"{log_tag} alert detected. Exiting program.")
-        if active_buy_orders:
-            logger.info("Active buy positions detected. Placing sell orders before exiting.")
-            for order in active_buy_orders:
-                subprocess.run(['python', 'placeSellOrder.py', api_key, client_id, password, credentials['token']])
-            active_buy_orders.clear()  # Clear the list after selling
-        exit(0)  # Exit the program
+        created_at = latest_log.get('created_at')
+        if created_at not in processed_logs:  # Check if this log has already been processed
+            logger.info(f"{log_tag} alert detected. Exiting program.")
+            if active_buy_orders:
+                logger.info("Active buy positions detected. Placing sell orders before exiting.")
+                for order in active_buy_orders:
+                    subprocess.run(['python', 'placeSellOrder.py', api_key, client_id, password, credentials['token']])
+                active_buy_orders.clear()  # Clear the list after selling
+            processed_logs.add(created_at)  # Mark this log as processed
+            exit(0)  # Exit the program
 
     # Check if the current time is 15:15
     current_time = datetime.now().strftime("%H:%M")

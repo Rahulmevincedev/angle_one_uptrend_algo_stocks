@@ -5,7 +5,7 @@ payload = ''
 headers = {
   'accept': 'application/json, text/plain, */*',
   'accept-language': 'en-US,en;q=0.9',
-  'authorization': 'csrftoken=Fz71IHv1mJEOxGtFe4a6AX77XjThDRv4bbZuc4lXVRpa4VtbUtUojI9sqCZcRB9Z;csrfmiddlewaretoken=Fz71IHv1mJEOxGtFe4a6AX77XjThDRv4bbZuc4lXVRpa4VtbUtUojI9sqCZcRB9Z;sessionid=ABq9fXCY0qEKumJ05nkVQl9etoGvfACU',
+  'authorization': 'csrftoken=BmGjTHczmFYOQ8pd5OsoWQzzQyglwU4QEy9Qbov3Fh4GhxplIMCOeF4hMk5qKZ5j;csrfmiddlewaretoken=BmGjTHczmFYOQ8pd5OsoWQzzQyglwU4QEy9Qbov3Fh4GhxplIMCOeF4hMk5qKZ5j;sessionid=QZUSuG0715knmTnXhqgfHZ2bfdIqDg6x',
   'origin': 'https://www.streak.tech',
   'priority': 'u=1, i',
   'referer': 'https://www.streak.tech/',
