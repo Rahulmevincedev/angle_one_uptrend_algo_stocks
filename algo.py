@@ -61,17 +61,17 @@ def check_for_alerts():
     log_tag = latest_log.get('log_tag')
 
     logger.info(f"Latest log tag: {log_tag}")
-    if log_tag == "BUY alert":
+    if log_tag == "Bought":
         created_at = latest_log.get('created_at')
         if created_at not in processed_logs:  # Check if this log has already been processed
-            logger.info("BUY alert detected. Placing buy order.")
+            logger.info("Bought detected. Placing buy order.")
             subprocess.run(['python', 'placeOrder.py', api_key, client_id, password, credentials['token']])
             active_buy_orders.append(latest_log)  # Track the buy order
             processed_logs.add(created_at)  # Mark this log as processed
-    elif log_tag == "SELL alert":
+    elif log_tag == "Sold":
         created_at = latest_log.get('created_at')
         if created_at not in processed_logs:  # Check if this log has already been processed
-            logger.info("SELL alert detected. Placing sell order.")
+            logger.info("Sold detected. Placing sell order.")
             subprocess.run(['python', 'placeSellOrder.py', api_key, client_id, password, credentials['token']])
             active_buy_orders = [order for order in active_buy_orders if order['created_at'] != latest_log['created_at']]
             processed_logs.add(created_at)  # Mark this log as processed
