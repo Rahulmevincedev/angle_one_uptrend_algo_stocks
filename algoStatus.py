@@ -5,7 +5,7 @@ payload = ''
 headers = {
   'accept': 'application/json, text/plain, */*',
   'accept-language': 'en-US,en;q=0.9',
-  'authorization': 'csrftoken=BmGjTHczmFYOQ8pd5OsoWQzzQyglwU4QEy9Qbov3Fh4GhxplIMCOeF4hMk5qKZ5j;csrfmiddlewaretoken=BmGjTHczmFYOQ8pd5OsoWQzzQyglwU4QEy9Qbov3Fh4GhxplIMCOeF4hMk5qKZ5j;sessionid=QZUSuG0715knmTnXhqgfHZ2bfdIqDg6x',
+  'authorization': 'csrftoken=bTb8qnOkYUJSYaSINjvbrw4bYQw4VjSpbe8E0GMh1srTTe6UxujFgK8Nz1FMTqOT;csrfmiddlewaretoken=bTb8qnOkYUJSYaSINjvbrw4bYQw4VjSpbe8E0GMh1srTTe6UxujFgK8Nz1FMTqOT;sessionid=wG7qCYYCGax4r4PlSjwVNH3FNw935fNB',
   'origin': 'https://www.streak.tech',
   'priority': 'u=1, i',
   'referer': 'https://www.streak.tech/',
@@ -18,7 +18,7 @@ headers = {
   'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
   'Cookie': 'streak_capp=MTcyOTM0ODQ2OXxRd3dBUURveE9tUnFZVzVuYnk1amIyNTBjbWxpTG5ObGMzTnBiMjV6TG1OaFkyaGxaalo2TkhsR2NrTmpSSFpLT1U5NFZWTjRla05KYUVrM2NWbG5hRmMwYnpNPXw7GoW__H0H7J-3MgoLxrqax9mlGRUQo-FO99KvJ4zeAQ=='
 }
-conn.request("GET", "/fetch_order_log/?deployment_uuid=e9698697-0816-4b3d-8616-dd9b356fda2b", payload, headers)
+conn.request("GET", "/fetch_order_log/?deployment_uuid=2f1557e2-cb1d-4657-8e87-01ecfb2488dc", payload, headers)
 res = conn.getresponse()
 data = res.read()
 print(data.decode("utf-8"))
