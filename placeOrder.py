@@ -23,8 +23,8 @@ def place_order(api_key, client_id, password, token):
 
     orderparams = {
         "variety": "NORMAL",
-        "tradingsymbol": "HDFCBANK31OCT241650CE",
-        "symboltoken": "107435",
+        "tradingsymbol": "HDFCBANK31OCT241700CE",
+        "symboltoken": "78497",
         "transactiontype": "BUY",
         "exchange": "NFO",
         "ordertype": "MARKET",
