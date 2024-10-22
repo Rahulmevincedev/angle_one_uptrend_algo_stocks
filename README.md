@@ -9,8 +9,8 @@ The **HDFC Algorithm** is designed to capitalize on upward trends in the stock m
 ### Key Features
 - **Position Type**: BUY
 - **Trading Strategy**: Utilizes a combination of EMA and RSI indicators to identify potential buy signals.
-- **Take Profit**: 200
-- **Stop Loss**: 7
+- **Take Profit%**: 200
+- **Stop Loss%**: 7
 - **Trading Hours**: 09:10 to 15:15
 
 ## Algorithm Logic
@@ -31,36 +31,17 @@ The algorithm exits a position when:
 
 ### Setting Up a Python Project with Virtual Environment
 
-1. **Create a Virtual Environment**
+ **Install Required Packages**
    ```bash
-   python -m venv .venv
-   ```
-
-2. **Activate the Virtual Environment**
-   - **For PowerShell**:
-     ```powershell
-     .venv\Scripts\Activate.ps1
-     ```
-   - **For Command Prompt**:
-     ```cmd
-     .venv\Scripts\activate
-     ```
-
-3. **Install Required Packages**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-### Required Packages
-- `yaml`
-- `SmartApi`
-- `logzero`
-- `pyotp`
-- `subprocess`
-- `time`
-- `json`
-- `random`
-- `datetime`
+   pip install yaml
+   pip install SmartApi or pip install SmartApi-python
+   pip install logzero
+   pip install pyotp
+   pip install subprocess
+   pip install time
+   pip install json
+   pip install random
+   pip install datetime
 
 ## Usage
 

@@ -34,6 +34,9 @@ active_buy_orders = []
 # Track processed log timestamps to avoid repeated actions
 processed_logs = set()
 
+# Track sold orders to prevent duplicate sells
+sold_orders = set()
+
 # Function to run algoStatus.py and check for alerts
 def check_for_alerts():
     global active_buy_orders
@@ -82,7 +85,9 @@ def check_for_alerts():
             if active_buy_orders:
                 logger.info("Active buy positions detected. Placing sell orders before exiting.")
                 for order in active_buy_orders:
-                    subprocess.run(['python', 'placeSellOrder.py', api_key, client_id, password, credentials['token']])
+                    if order['created_at'] not in sold_orders:  # Check if this order has already been sold
+                        subprocess.run(['python', 'placeSellOrder.py', api_key, client_id, password, credentials['token']])
+                        sold_orders.add(order['created_at'])  # Mark this order as sold
                 active_buy_orders.clear()  # Clear the list after selling
             processed_logs.add(created_at)  # Mark this log as processed
             exit(0)  # Exit the program
