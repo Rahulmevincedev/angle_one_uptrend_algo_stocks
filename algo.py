@@ -58,9 +58,8 @@ def check_for_alerts():
         logger.info("No order logs found.")
         return
 
-    # Sort logs by 'created_at' timestamp
-    order_logs.sort(key=lambda log: log.get('created_at'), reverse=True)
-    latest_log = order_logs[0]  # Get the latest log by time
+    # order_logs.sort(key=lambda log: log.get('created_at'), reverse=True)  # Removed sorting
+    latest_log = order_logs[0]  # Get the first log as it is already sorted
     log_tag = latest_log.get('log_tag')
 
     logger.info(f"Latest log tag: {log_tag}")
