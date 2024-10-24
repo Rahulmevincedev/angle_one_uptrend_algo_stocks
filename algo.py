@@ -91,9 +91,12 @@ def check_for_alerts():
     logger.info(f"Current time: {current_time}")
     if current_time == "15:15" and active_buy_orders:
         logger.info("Time is 15:15. Placing sell orders for all active buy positions.")
-        for order in active_buy_orders:
+        if created_at not in processed_logs:  # Check if this log has already been processed
+            logger.info("Sold detected. Placing sell order.")
             subprocess.run(['python', 'placeSellOrder.py', api_key, client_id, password, credentials['token']])
-        active_buy_orders.clear()  # Clear the list after selling
+            active_buy_orders = [order for order in active_buy_orders if order['created_at'] != latest_log['created_at']]
+            processed_logs.add(created_at)  # Mark this log as processed           
+        exit(0)  # Exit the program
 
 # Run check_for_alerts every 7 to 10 seconds
 logger.info("Starting alert check loop.")
