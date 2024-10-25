@@ -33,10 +33,10 @@ def place_order(api_key, client_id, password, token):
         "quantity": "550",
     }
 
-    # Save positions to positions.json
+    # Save Buy Order to placeOrder.json
     with open('Test/placeOrder.json', 'w') as json_file:
         json.dump(orderparams, json_file, indent=4)
-    logger.info("Order saved to order.json")
+    logger.info("Buy Order saved to placeOrder.json")
 
     # Place an order and return the full response
     response = smartApi.placeOrderFullResponse(orderparams)
