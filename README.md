@@ -23,9 +23,23 @@ The algorithm enters a position when:
 - The hourly closing price is higher than the opening price.
 
 ### Exit Logic
-The algorithm exits a position when:
-- The 14-period RSI falls below its 14-period moving average.
-- The hourly closing price is lower than the opening price.
+The algorithm exits a position when any of these conditions are met:
+
+1. **Primary Trailing Mechanism**:
+   - Exit when price closes below the 21 EMA on 5-minute timeframe
+   - This acts as a dynamic support line that follows the price up during uptrends
+
+2. **Supertrend Based Exit** (3, 10 parameters):
+   - Exit when Supertrend line turns from green to red
+   - Supertrend naturally trails below the price during uptrends
+
+3. **RSI-Based Confirmation**:
+   - Exit if RSI(14) crosses below 45 after previously being above 60
+   - This helps catch momentum shifts while allowing for normal pullbacks
+
+4. **Hard Stops** (for protection):
+   - Initial Stop Loss: 7% below entry (unchanged)
+   - Take Profit: 200% (unchanged)
 
 ## Installation
 
