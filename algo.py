@@ -95,10 +95,9 @@ def check_for_alerts():
         active_buy_orders = []  # Clear all active buy orders
         exit(0)  # Exit the program after 15:15 sell orders
 
-# Run check_for_alerts every 7 to 10 seconds
+# Run check_for_alerts every 15 seconds
 logger.info("Starting alert check loop.")
 while True:
     check_for_alerts()
-    sleep_duration = random.randint(7, 10)
-    logger.info(f"Sleeping for {sleep_duration} seconds.")
-    time.sleep(sleep_duration)  # Includes both 7 and 10
+    logger.info("Sleeping for 15 seconds.")
+    time.sleep(15)
