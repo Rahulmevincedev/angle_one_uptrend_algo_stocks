@@ -61,30 +61,25 @@ def check_for_alerts():
     # order_logs.sort(key=lambda log: log.get('created_at'), reverse=True)  # Removed sorting
     latest_log = order_logs[0]  # Get the first log as it is already sorted
     log_tag = latest_log.get('log_tag')
+    created_at = latest_log.get('created_at')
 
     logger.info(f"Latest log tag: {log_tag}")
-    if log_tag == "Bought":
-        created_at = latest_log.get('created_at')
+    
+    # Handle all sell conditions in one place
+    if log_tag in ["Sold", "Completed", "Force stopped"]:
         if created_at not in processed_logs:  # Check if this log has already been processed
+            logger.info(f"{log_tag} detected. Placing sell order.")
+            subprocess.run(['python', 'placeSellOrder.py', api_key, client_id, password, credentials['token']])
+            active_buy_orders = [order for order in active_buy_orders if order['created_at'] != latest_log['created_at']]
+            processed_logs.add(created_at)  # Mark this log as processed
+            if log_tag in ["Completed", "Force stopped"]:
+                exit(0)  # Exit only for Completed/Force stopped
+    elif log_tag == "Bought":
+        if created_at not in processed_logs:
             logger.info("Bought detected. Placing buy order.")
             subprocess.run(['python', 'placeOrder.py', api_key, client_id, password, credentials['token']])
-            active_buy_orders.append(latest_log)  # Track the buy order
-            processed_logs.add(created_at)  # Mark this log as processed
-    elif log_tag == "Sold":
-        created_at = latest_log.get('created_at')
-        if created_at not in processed_logs:  # Check if this log has already been processed
-            logger.info("Sold detected. Placing sell order.")
-            subprocess.run(['python', 'placeSellOrder.py', api_key, client_id, password, credentials['token']])
-            active_buy_orders = [order for order in active_buy_orders if order['created_at'] != latest_log['created_at']]
-            processed_logs.add(created_at)  # Mark this log as processed
-    elif log_tag in ["Completed", "Force stopped"]:
-        created_at = latest_log.get('created_at')
-        if created_at not in processed_logs:  # Check if this log has already been processed
-            logger.info("Sold detected. Placing sell order.")
-            subprocess.run(['python', 'placeSellOrder.py', api_key, client_id, password, credentials['token']])
-            active_buy_orders = [order for order in active_buy_orders if order['created_at'] != latest_log['created_at']]
-            processed_logs.add(created_at)  # Mark this log as processed                      
-            exit(0)  # Exit the program after processing Completed/Force stopped
+            active_buy_orders.append(latest_log)
+            processed_logs.add(created_at)
 
     # Check if the current time is 15:15 or later
     current_time = datetime.now()
