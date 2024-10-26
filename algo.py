@@ -5,7 +5,6 @@ import pyotp
 import subprocess
 import time
 import json
-import random
 from datetime import datetime
 
 # Load credentials from the YAML file

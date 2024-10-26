@@ -37,10 +37,6 @@ The algorithm exits a position when any of these conditions are met:
    - Exit if RSI(14) crosses below 45 after previously being above 60
    - This helps catch momentum shifts while allowing for normal pullbacks
 
-4. **Hard Stops** (for protection):
-   - Initial Stop Loss: 7% below entry (unchanged)
-   - Take Profit: 200% (unchanged)
-
 ## Installation
 
 ### Setting Up a Python Project with Virtual Environment
